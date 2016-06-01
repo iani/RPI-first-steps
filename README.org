@@ -4,9 +4,60 @@ Instructions for setting up a Raspberry Pi 3.
 
 * Burn a Jessie-lite linux image on micro sd
 
+Get Jessie-lite from here: 
+https://www.raspberrypi.org/downloads/raspbian/
+
+Here are the instructions for burning it onto your micro-sd:
+
+https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
+
+For me, using a macbook pro with MacOS 10.11.5 (El Capitan), the first instructions did not work. I had to try the instructions marked "ALTERNATIVE METHOD", quoted below.  I had to use the rdisk naming convention but did not have to erase the SD card's partition table. 
+
+#+BEGIN_QUOTE
+From the terminal run df -h.
+Connect the SD card reader with the SD card inside.
+Run df -h again and look for the new device that wasn't listed last time. Record the device name of the filesystem's partition, for example /dev/disk3s1.
+Unmount the partition so that you will be allowed to overwrite the disk:
+
+sudo diskutil unmount /dev/disk3s1
+Alternatively, open Disk Utility and unmount the partition of the SD card; do not eject it, or you will have to reconnect it.
+
+Using the device name of the partition, work out the raw device name for the entire disk by omitting the final s1 and replacing disk with rdisk This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it - for example, rdisk3, not rdisk3s1. Similarly, you might have another SD drive name/number like rdisk2 or rdisk4; you can check again by using the df -h command both before and after you insert your SD card reader into your Mac. For example, /dev/disk3s1 becomes /dev/rdisk3.
+In the terminal, write the image to the card with this command, using the raw device name from above. Read the above step carefully to be sure you use the correct rdisk number here:
+
+sudo dd bs=1m if=2016-05-27-raspbian-jessie.img of=/dev/rdisk3
+If the above command reports the error dd: bs: illegal numeric value, please change the block size bs=1m to bs=1M.
+
+If the above command reports the error dd: /dev/rdisk3: Permission denied, it means the partition table of the SD card is being protected against being overwritten by Mac OS. Erase the SD card's partition table using this command:
+
+sudo diskutil partitionDisk /dev/disk3 1 MBR "Free Space" "%noformat%" 100%
+That command will also set the permissions on the device to allow writing. Now try the dd command again.
+
+Note that dd will not provide any on-screen information until there is an error or it is finished; when complete, information will be shown and the disk will re-mount. If you wish to view the progress, you can use Ctrl-T; this generates SIGINFO, the status argument of your terminal, and will display information on the process.
+
+After the dd command finishes, eject the card:
+
+sudo diskutil eject /dev/rdisk3
+Alternatively, open Disk Utility and use this to eject the SD card.
+#+END_QUOTE
+
 * Connect to your rpi via ssh over ethernet
 
+After inserting the micro sd in the RPI, connect the RPI to your computer using an ethernet cable, then connect the RPI to a power source to boot it, and after ca 2 minutes, log into RPI by typing unix terminal:
+
+: sudo ssh pi@raspberry.local
+
+the password is =raspberry=.
+
+Now you are on the shell of the raspberry pi.
+
 * Configure your rpi to access your Wifi network
+
+https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+
+Maybe a more useful page is this one: 
+
+https://www.raspberrypi.org/forums/viewtopic.php?&t=42670
 
 * Install EMACS
 
