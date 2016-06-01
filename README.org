@@ -1,0 +1,15 @@
+
+
+Instructions for setting up a Raspberry Pi 3.
+
+* Burn a Jessie-lite linux image on micro sd
+
+* Connect to your rpi via ssh over ethernet
+
+* Configure your rpi to access your Wifi network
+
+* Install EMACS
+
+* Install SuperCollider
+
+
