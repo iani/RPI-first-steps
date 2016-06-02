@@ -4,9 +4,11 @@ Instructions for setting up a Raspberry Pi 3.
 
 * Burn a Jessie-lite linux image on micro sd
 
+** Obtaining Jessie-lite
 Get Jessie-lite from here: 
 https://www.raspberrypi.org/downloads/raspbian/
 
+** Loading it on micro-sd
 Here are the instructions for burning it onto your micro-sd:
 
 https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
@@ -53,11 +55,32 @@ Now you are on the shell of the raspberry pi.
 
 * Configure your rpi to access your Wifi network
 
+** Background
+
+Internet connections are configured throught the contents of this file: 
+
+: /etc/network/interfaces
+
+The above =interfaces= file may also load a different file to configure WiFi access.  This file is usually: 
+
+: /etc/wpa_supplicant/wpa_supplicant.conf
+
+The mechanism that gives the =raspberrypi.local= DNS name to your RPI is explained here: 
+
+http://www.howtogeek.com/167190/how-and-why-to-assign-the-.local-domain-to-your-raspberry-pi/
+
+
+
+** Instructions
 https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
 
 Maybe a more useful page is this one: 
 
 https://www.raspberrypi.org/forums/viewtopic.php?&t=42670
+
+And even better this one: 
+
+https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660
 
 * Install EMACS
 
