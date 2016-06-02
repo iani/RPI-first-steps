@@ -17,29 +17,35 @@ For me, using a macbook pro with MacOS 10.11.5 (El Capitan), the first instructi
 
 #+BEGIN_QUOTE
 From the terminal run df -h.
+
 Connect the SD card reader with the SD card inside.
+
 Run df -h again and look for the new device that wasn't listed last time. Record the device name of the filesystem's partition, for example /dev/disk3s1.
 Unmount the partition so that you will be allowed to overwrite the disk:
 
-sudo diskutil unmount /dev/disk3s1
+: sudo diskutil unmount /dev/disk3s1
+
 Alternatively, open Disk Utility and unmount the partition of the SD card; do not eject it, or you will have to reconnect it.
 
 Using the device name of the partition, work out the raw device name for the entire disk by omitting the final s1 and replacing disk with rdisk This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it - for example, rdisk3, not rdisk3s1. Similarly, you might have another SD drive name/number like rdisk2 or rdisk4; you can check again by using the df -h command both before and after you insert your SD card reader into your Mac. For example, /dev/disk3s1 becomes /dev/rdisk3.
 In the terminal, write the image to the card with this command, using the raw device name from above. Read the above step carefully to be sure you use the correct rdisk number here:
 
-sudo dd bs=1m if=2016-05-27-raspbian-jessie.img of=/dev/rdisk3
+: sudo dd bs=1m if=2016-05-27-raspbian-jessie.img of=/dev/rdisk3
+
 If the above command reports the error dd: bs: illegal numeric value, please change the block size bs=1m to bs=1M.
 
 If the above command reports the error dd: /dev/rdisk3: Permission denied, it means the partition table of the SD card is being protected against being overwritten by Mac OS. Erase the SD card's partition table using this command:
 
-sudo diskutil partitionDisk /dev/disk3 1 MBR "Free Space" "%noformat%" 100%
+: sudo diskutil partitionDisk /dev/disk3 1 MBR "Free Space" "%noformat%" 100%
+
 That command will also set the permissions on the device to allow writing. Now try the dd command again.
 
 Note that dd will not provide any on-screen information until there is an error or it is finished; when complete, information will be shown and the disk will re-mount. If you wish to view the progress, you can use Ctrl-T; this generates SIGINFO, the status argument of your terminal, and will display information on the process.
 
 After the dd command finishes, eject the card:
 
-sudo diskutil eject /dev/rdisk3
+: sudo diskutil eject /dev/rdisk3
+
 Alternatively, open Disk Utility and use this to eject the SD card.
 #+END_QUOTE
 
@@ -63,7 +69,7 @@ The hostname is configured in two files:
 
 : /etc/hosts
 
-2. this file: 
+and 2. this file: 
 
 : /etc/hostname
 
@@ -73,9 +79,9 @@ Additionally, there is a script file which takes the information from the above 
 
 Therefore, to change the hostname of your Pi, do 3 things: 
 
-1. edit the two files =/etc/hosts= and =/etc/hostname=, 
-2. the =hostaname.sh= script with =sudo /etc/init.d/hostname.sh=
-3. finally reboot the raspberry pi with =sudo reboot=
+ 1. edit the two files =/etc/hosts= and =/etc/hostname=, 
+ 2. the =hostaname.sh= script with =sudo /etc/init.d/hostname.sh=
+ 3. finally reboot the raspberry pi with =sudo reboot=
 
 Here is how to edit =/etc/hosts/=
 
@@ -109,7 +115,7 @@ https://help.ubuntu.com/lts/serverguide/network-configuration.html
 
 ** Instructions
 
-1. Edit the =/etc/network/interfaces= file to enable WiFi configuration through =wpa_supplicant.conf=.
+- 1. Edit the =/etc/network/interfaces= file to enable WiFi configuration through =wpa_supplicant.conf=.
 
 Edit using =nano= with this command:
 
@@ -148,7 +154,7 @@ because this line tells the wlan interface to use the =wpa_supplicant.conf= file
 
 After editing, type Control-O to write the contents of the file and Control-X to exit =nano=.
 
-2. Edit the file =/etc/wpa_supplicant/wpa_supplicant.conf= to add the name of the WiFi and password of the network.
+- 2. Edit the file =/etc/wpa_supplicant/wpa_supplicant.conf= to add the name of the WiFi and password of the network.
 
 You can find the name and password of the network from your KeyChain application on a Mac, or from a corresponding utility on Linux or Window. 
 
@@ -276,11 +282,11 @@ It will show an index containing all current sources of emacs.  Find the one tha
 
 This will download the file emacs-24.5.tar.xz on your Pi.  Now unzip and unarchive the file in two steps: 
 
-1. unzip ("Gunzip").
+- 1. unzip ("Gunzip").
 
 : gunzip emacs-24.5.tar.xz
 
-2. Unarchive (extract from tar archive:)
+- 2. Unarchive (extract from tar archive:)
 
 : tar -xvf emacs-24.5.tar
 
