@@ -309,4 +309,62 @@ After this is done, you can run the =emacs= command to start emacs from the term
 
 * Install SuperCollider
 
+The installation instructions here are according to this site: 
+http://supercollider.github.io/development/building-raspberrypi.html
 
+First, be sure that you have enabled login to your Pi using the steps above, and also that you have access to the internet, and have performed apt-get update and apt-get upgrade.  After that, go through the following steps:
+
+** Install basic libraries for audio
+
+: sudo apt-get install alsa-base libicu-dev libasound2-dev libsamplerate0-dev libsndfile1-dev libreadline-dev libxt-dev libudev-dev libavahi-client-dev libfftw3-dev cmake git gcc-4.8 g++-4.8
+
+** Get and install jack audio drivers
+
+#+BEGIN_SRC bash
+: git clone git://github.com/jackaudio/jack2 --depth 1
+: cd jack2
+: ./waf configure --alsa #note: here we use the default gcc-4.9
+: ./waf build
+: sudo ./waf install
+: sudo ldconfig
+: cd ..
+: rm -rf jack2
+: sudo nano /etc/security/limits.conf #and add the following two lines at the end
+: @audio - memlock 256000
+: @audio - rtprio 75
+: exit #and log in again to make the limits.conf settings work
+#+END_SRC
+
+** step5 (compile & install sc master)
+
+: git clone --recursive git://github.com/supercollider/supercollider #optionally add –depth 1 here if you only need master
+: cd supercollider
+: git submodule init && git submodule update
+: mkdir build && cd build
+: export CC=/usr/bin/gcc-4.8 #here temporarily use the older gcc-4.8
+: export CXX=/usr/bin/g++-4.8
+: cmake -L -DCMAKE_BUILD_TYPE="Release" -DBUILD_TESTING=OFF -DSSE=OFF -DSSE2=OFF -DSUPERNOVA=OFF -DNOVA_SIMD=ON -DNATIVE=OFF -DSC_ED=OFF -DSC_WII=OFF -DSC_IDE=OFF -DSC_QT=OFF -DSC_EL=OFF -DSC_VIM=OFF -DCMAKE_C_FLAGS="-mfloat-abi=hard -mfpu=neon" -DCMAKE_CXX_FLAGS="-mfloat-abi=hard -mfpu=neon" ..
+: make -j 4 #leave out flag j4 on single core rpi models
+: sudo make install
+: sudo ldconfig
+: cd ../..
+: rm -rf supercollider
+: sudo mv /usr/local/share/SuperCollider/SCClassLibrary/Common/GUI /usr/local/share/SuperCollider/SCClassLibrary/scide_scqt/GUI
+: sudo mv /usr/local/share/SuperCollider/SCClassLibrary/JITLib/GUI /usr/local/share/SuperCollider/SCClassLibrary/scide_scqt/JITLibGUI
+
+** step6 (start jack & sclang & test)
+
+: jackd -P75 -dalsa -dhw:0 -p1024 -n3 -s -r44100 & #edit -dhw:1 to match your soundcard. 
+
+usually it is 1 for usb and 0 for built-in audio.
+
+: sclang #should start sc and compile the class library with only 3 harmless class overwrites warnings
+: s.boot #should boot the server
+: a= {SinOsc.ar([400, 404])}.play #should play sound in both channels
+: a.free
+: {1000000.do{2.5.sqrt}}.bench #benchmark: ~0.58 for rpi3, ~0.89 for rpi2, ~3.1 for rpi1
+: a= {Mix(50.collect{RLPF.ar(SinOsc.ar)});DC.ar(0)}.play #benchmark
+: s.avgCPU #should show ~12% for rpi3, ~19% for rpi2 and ~73% for rpi1
+: a.free
+: 0.exit #quit sclang
+: pkill jackd #quit jackd
