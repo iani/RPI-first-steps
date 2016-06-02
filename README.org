@@ -53,6 +53,38 @@ the password is =raspberry=.
 
 Now you are on the shell of the raspberry pi.
 
+* Changing the hostname of your Pi
+
+See http://www.howtogeek.com/167195/how-to-change-your-raspberry-pi-or-other-linux-devices-hostname/
+
+The hostname is configured in two files:
+
+1. this file:
+
+: /etc/hosts
+
+2. this file: 
+
+: /etc/hostname
+
+Additionally, there is a script file which takes the information from the above 2 files and configures the system in order to register the new host name.  The script file is: 
+
+: /etc/init.d/hostname.sh
+
+Therefore, to change the hostname of your Pi, do 3 things: 
+
+1. edit the two files =/etc/hosts= and =/etc/hostname=, 
+2. the =hostaname.sh= script with =sudo /etc/init.d/hostname.sh=
+3. finally reboot the raspberry pi with =sudo reboot=
+
+Here is how to edit =/etc/hosts/=
+
+#+BEGIN_QUOTE
+Leave all of the entries alone except for the very last entry labeled 127.0.1.1 with the hostname “raspberrypi“. This is the only line you want to edit. Replace “raspberrypi” with whatever hostname you desire. We replaced it on our device with “weatherstation“. Press CTRL+X to close the editor; agree to overwrite the existing file and save it.
+#+END_QUOTE
+
+=/etc/hostname/= contains the current hostname on a single line, only.  Replace the current hostname with the new hostname.
+
 * Configure your rpi to access your Wifi network
 
 ** Background
@@ -65,13 +97,124 @@ The above =interfaces= file may also load a different file to configure WiFi acc
 
 : /etc/wpa_supplicant/wpa_supplicant.conf
 
+More information is given in the following links, however you can skip this and go directly to the [[*Instructions][Instructions]].
+
 The mechanism that gives the =raspberrypi.local= DNS name to your RPI is explained here: 
 
 http://www.howtogeek.com/167190/how-and-why-to-assign-the-.local-domain-to-your-raspberry-pi/
 
+To understand the text in =/etc/network/interfaces= see the documentation in: 
 
+https://help.ubuntu.com/lts/serverguide/network-configuration.html
 
 ** Instructions
+
+1. Edit the =/etc/network/interfaces= file to enable WiFi configuration through =wpa_supplicant.conf=.
+
+Edit using =nano= with this command:
+
+: nano /etc/network/interfaces
+
+Here are the contents of my current =/etc/network/interfaces= file, which permit me to access the pi over WiFi:
+
+#+BEGIN_SRC bash
+# interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo
+iface lo inet loopback
+
+iface eth0 inet manual
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+allow-hotplug wlan1
+iface wlan1 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+#+END_SRC
+
+The relevant sections are those which are headed with a line containing =wlan= s =wlan= denotes WiFi lan.  It is essential that they conetain this line:
+
+:     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+because this line tells the wlan interface to use the =wpa_supplicant.conf= file to configure its access to WiFi. 
+
+After editing, type Control-O to write the contents of the file and Control-X to exit =nano=.
+
+2. Edit the file =/etc/wpa_supplicant/wpa_supplicant.conf= to add the name of the WiFi and password of the network.
+
+You can find the name and password of the network from your KeyChain application on a Mac, or from a corresponding utility on Linux or Window. 
+
+Edit the wpa_supplicant.conf file using sudo, because it is writeable only by root: 
+
+: sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+Here are the full contents of the file in my current working configuration:
+
+#+BEGIN_SRC bash
+country=GB
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="{WIFI_NAME}"
+    psk="{PASSWORD}"
+}
+#+END_SRC
+
+You should substitute {WIFI_NAME} with the name of your wifi network and {PASSWORD} with the password for that network. 
+
+After writing the file, you may reboot the wifi with:
+
+: sudo reboot
+
+If the configuration was correct, then after the reboot is complete, you should be able to login to your pi over WiFi (without Ethernet cable), over the terminal, through the command: 
+
+: sudo ssh pi@raspberrypi.local
+
+The password for user pi is =raspberry=.
+
+** Check that you can access the internet via WiFi
+
+If you have successfully logged into the Pi, then you can test if you can access the internet via WiFi, by pinging a common address. For example: 
+
+: ping google.com
+
+will periodically ping and post the results line this:
+
+#+BEGIN_SRC bash
+ping google.com
+PING google.com (172.217.20.78) 56(84) bytes of data.
+64 bytes from fra02s27-in-f14.1e100.net (172.217.20.78): icmp_seq=1 ttl=55 time=60.4 ms
+64 bytes from fra02s27-in-f14.1e100.net (172.217.20.78): icmp_seq=2 ttl=55 time=55.8 ms
+64 bytes from fra02s27-in-f14.1e100.net (172.217.20.78): icmp_seq=3 ttl=55 time=53.9 ms
+#+END_SRC
+
+Stop the ping by typing Control-C.
+
+** Before doing anything else: update+upgrade =apt-get=
+
+As soon as your Pi is connected to the Internet, run the following two commands to update and upgrade your =apt-get= packet manager: 
+
+#+BEGIN_SRC bash
+sudo apt-get update
+
+sudo apt-get upgrade
+#+END_SRC
+
+Run first the first command, let it finish, and then run the second command.
+
+** Extra info: Configuring Static IP address over WiFi
+
+This concerns mainly setting up your raspberry pi to have a static IP address.  You do not need this to connect to your Pi wirelessly if you have successfully completed the steps above.
+
 https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
 
 Maybe a more useful page is this one: 
@@ -82,7 +225,81 @@ And even better this one:
 
 https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660
 
+
 * Install EMACS
+
+Before you start, run this to make sure that your apt-get package manager is up to date:
+
+: sudo apt-get update && sudo apt-get upgrade
+
+After that follow the instructions here:
+
+http://ubuntuhandbook.org/index.php/2014/10/emacs-24-4-released-install-in-ubuntu-14-04/
+
+Step by step details: 
+
+This first command should run "as-is" (no preparation needed):
+
+: sudo apt-get install build-essential
+
+The next command needs some configuration:
+
+: sudo apt-get build-dep emacs24
+
+This will fail, and post this error:
+
+: E: You must put some 'source' URIs in your sources.list
+
+To fix this, edit the file =sources.list= and uncomment the last line:
+
+Run 
+
+: sudo nano /etc/apt/sources.list
+
+The file contents should be: 
+
+#+BEGIN_SRC bash
+deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi
+# Uncomment line below then 'apt-get update' to enable 'apt-get source'
+#deb-src http://archive.raspbian.org/raspbian/ jessie main contrib non-free rpi
+#+END_SRC
+
+Uncomment the last line by removing the =#= sign at the beginning of the line. Save, and then run the command 
+
+: sudo apt-get build-dep emacs24
+
+Now get the source for emacs24 from the web.  Visit this site: http://ftp.gnu.org/gnu/emacs/
+
+It will show an index containing all current sources of emacs.  Find the one that you want.  As of this writing, the most recent is: emacs-24.5.tar.xz.  Right-click on the name of this file to get a menu and select "Copy Link Address".  The address copied should be: "http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.xz".  You will use this address with wget to download the file directly on your PI from the shell with =wget=.  Use the command: 
+
+: wget http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.xz
+
+This will download the file emacs-24.5.tar.xz on your Pi.  Now unzip and unarchive the file in two steps: 
+
+1. unzip ("Gunzip").
+
+: gunzip emacs-24.5.tar.xz
+
+2. Unarchive (extract from tar archive:)
+
+: tar -xvf emacs-24.5.tar
+
+The v tells =tar= to print out what it is unarchiving, so that you can follow the progress of the unpacking.
+
+Next you can proceed with the rest of the instructions in http://ubuntuhandbook.org/index.php/2014/10/emacs-24-4-released-install-in-ubuntu-14-04/, namely: 
+
+: cd emacs-24.4
+
+
+: ./configure
+
+: make
+
+: sudo make install
+
+After this is done, you can run the =emacs= command to start emacs from the terminal: 
+
+: emacs
 
 * Install SuperCollider
 
