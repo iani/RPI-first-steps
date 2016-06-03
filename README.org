@@ -1,8 +1,33 @@
 
 
-Instructions for setting up a Raspberry Pi 3.
+Instructions for setting up a Raspberry Pi 3 for work with Emacs and SuperCollider over WiFi.
 
-* Burn a Jessie-lite linux image on micro sd
+* Introduction
+
+The present instructions show how to set up the system of a Raspberry Pi on a micro-sd and to install Emacs and SuperCollider on it, using an Ethernet cable to connect to a computer and a WiFi network for access to the Internet.
+
+** Requirements
+The following items are needed to complete the setup: 
+
+1. A Raspberry Pi (The present instrucions are for Raspberry Pi 3).
+2. A power supply for the Raspberry Pi.
+3. A Micro-sd disc with 8GB capacity.
+4. A computer equipped with an ethernet interface (the present instructions assume that you are working on a mac with MacOS 10.11, el Capitan).
+5. An Ethernet cable for connecting the Raspberry Pi to the computer.
+6. A WiFi network for connecting both the computer and the Raspberry Pi to the Internet.
+
+** Steps
+
+They instructions include the following steps: 
+
+1. Download and store a Linux image on a micro sd disc, so as to boot the Raspberry Pi with it.
+2. Connect the Raspberry Pi to the Computer via Ethernet, and log onto the Raspberry Pi via ssh.
+3. Configure the Pi to access your WiFi network and the internet.
+4. Get and install EMACS.
+5. Get and install SuperCollider.
+6. Configure EMACS to work with SuperCollider.
+
+* Loade a Jessie-lite linux image on micro sd
 
 ** Obtaining Jessie-lite
 Get Jessie-lite from here: 
@@ -312,13 +337,14 @@ After this is done, you can run the =emacs= command to start emacs from the term
 The installation instructions here are according to this site: 
 http://supercollider.github.io/development/building-raspberrypi.html
 
+** Step 1: Preliminaries: Connect, update package system
 First, be sure that you have enabled login to your Pi using the steps above, and also that you have access to the internet, and have performed apt-get update and apt-get upgrade.  After that, go through the following steps:
 
-** Install basic libraries for audio
+** Step 2: Install basic libraries for audio
 
 : sudo apt-get install alsa-base libicu-dev libasound2-dev libsamplerate0-dev libsndfile1-dev libreadline-dev libxt-dev libudev-dev libavahi-client-dev libfftw3-dev cmake git gcc-4.8 g++-4.8
 
-** Get and install jack audio drivers
+** Step 3: Get and install jack audio drivers
 
 #+BEGIN_SRC bash
 : git clone git://github.com/jackaudio/jack2 --depth 1
@@ -335,7 +361,7 @@ First, be sure that you have enabled login to your Pi using the steps above, and
 : exit #and log in again to make the limits.conf settings work
 #+END_SRC
 
-** step5 (compile & install sc master)
+** Step 5 (compile & install sc master)
 
 : git clone --recursive git://github.com/supercollider/supercollider #optionally add –depth 1 here if you only need master
 : cd supercollider
@@ -352,7 +378,7 @@ First, be sure that you have enabled login to your Pi using the steps above, and
 : sudo mv /usr/local/share/SuperCollider/SCClassLibrary/Common/GUI /usr/local/share/SuperCollider/SCClassLibrary/scide_scqt/GUI
 : sudo mv /usr/local/share/SuperCollider/SCClassLibrary/JITLib/GUI /usr/local/share/SuperCollider/SCClassLibrary/scide_scqt/JITLibGUI
 
-** step6 (start jack & sclang & test)
+** Step 6 (start jack & sclang & test)
 
 : jackd -P75 -dalsa -dhw:0 -p1024 -n3 -s -r44100 & #edit -dhw:1 to match your soundcard. 
 
@@ -368,3 +394,5 @@ usually it is 1 for usb and 0 for built-in audio.
 : a.free
 : 0.exit #quit sclang
 : pkill jackd #quit jackd
+
+** Step 7: Configure EMACS for work with SuperCollider
