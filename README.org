@@ -211,21 +211,6 @@ sudo apt-get upgrade
 
 Run first the first command, let it finish, and then run the second command.
 
-** Extra info: Configuring Static IP address over WiFi
-
-This concerns mainly setting up your raspberry pi to have a static IP address.  You do not need this to connect to your Pi wirelessly if you have successfully completed the steps above.
-
-https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
-
-Maybe a more useful page is this one: 
-
-https://www.raspberrypi.org/forums/viewtopic.php?&t=42670
-
-And even better this one: 
-
-https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660
-
-
 * Install EMACS
 
 Before you start, run this to make sure that your apt-get package manager is up to date:
@@ -401,3 +386,19 @@ Leave all of the entries alone except for the very last entry labeled 127.0.1.1 
 #+END_QUOTE
 
 =/etc/hostname/= contains the current hostname on a single line, only.  Replace the current hostname with the new hostname.
+
+** Extra info: Configuring Static IP address over WiFi
+
+This concerns mainly setting up your raspberry pi to have a static IP address.  You do not need this to connect to your Pi wirelessly if you have successfully completed the steps above.
+
+https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+
+Maybe a more useful page is this one: 
+
+https://www.raspberrypi.org/forums/viewtopic.php?&t=42670
+
+And even better this one: 
+
+https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660
+
+
