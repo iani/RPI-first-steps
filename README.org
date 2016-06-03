@@ -29,11 +29,11 @@ They instructions include the following steps:
 
 * Load a Linux image on micro sd for the Pi (Jessie-lite)
 
-** Obtaining Jessie-lite
+** Obtain Jessie-lite
 Get Jessie-lite from here: 
 https://www.raspberrypi.org/downloads/raspbian/
 
-** Loading it on micro-sd
+** Load the Jessie-lite Image on micro-sd
 Here are the instructions for burning it onto your micro-sd:
 
 https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
