@@ -38,7 +38,7 @@ Here are the instructions for burning it onto your micro-sd:
 
 https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
 
-For me, using a macbook pro with MacOS 10.11.5 (El Capitan), the first instructions did not work. I had to try the instructions marked "ALTERNATIVE METHOD", quoted below.  I had to use the rdisk naming convention but did not have to erase the SD card's partition table. 
+For me, using a macbook pro with MacOS 10.11.5 (El Capitan), the first part of the above instructions did not work. I had to try the instructions marked "ALTERNATIVE METHOD", which I quote immediately below this paragraph.  Note: I had to use the rdisk naming convention but did not have to erase the SD card's partition table. 
 
 #+BEGIN_QUOTE
 From the terminal run df -h.
