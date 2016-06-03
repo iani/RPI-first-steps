@@ -387,9 +387,11 @@ Leave all of the entries alone except for the very last entry labeled 127.0.1.1 
 
 =/etc/hostname/= contains the current hostname on a single line, only.  Replace the current hostname with the new hostname.
 
-** Extra info: Configuring Static IP address over WiFi
+** Configuring Static IP address over WiFi
 
-This concerns mainly setting up your raspberry pi to have a static IP address.  You do not need this to connect to your Pi wirelessly if you have successfully completed the steps above.
+Following links concern setting up your raspberry pi to have a static IP address.  You do not need this to connect to your Pi wirelessly if you have successfully completed the steps above.  But it can be useful if you are programming a network of Pi's and want to communicate with them over their IP numbers rather than their domain names.
+
+I have not yet tried to do this.
 
 https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
 
