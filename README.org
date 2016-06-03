@@ -241,7 +241,7 @@ Run
 
 : sudo nano /etc/apt/sources.list
 
-The file contents should be: 
+The the original contents of the file before editing should be: 
 
 #+BEGIN_SRC bash
 deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi
@@ -249,7 +249,11 @@ deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rp
 #deb-src http://archive.raspbian.org/raspbian/ jessie main contrib non-free rpi
 #+END_SRC
 
-Uncomment the last line by removing the =#= sign at the beginning of the line. Save, and then run the command 
+You need to uncomment the last line, which means to remove the =#= sign at the beginning of the line. The last line beoomes: 
+
+: deb-src http://archive.raspbian.org/raspbian/ jessie main contrib non-free rpi
+
+Save, and then run the command 
 
 : sudo apt-get build-dep emacs24
 
