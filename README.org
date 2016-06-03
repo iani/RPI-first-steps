@@ -85,38 +85,6 @@ the password is =raspberry=.
 
 Now you are on the shell of the raspberry pi.
 
-* Changing the hostname of your Pi
-
-See http://www.howtogeek.com/167195/how-to-change-your-raspberry-pi-or-other-linux-devices-hostname/
-
-The hostname is configured in two files:
-
-1. this file:
-
-: /etc/hosts
-
-and 2. this file: 
-
-: /etc/hostname
-
-Additionally, there is a script file which takes the information from the above 2 files and configures the system in order to register the new host name.  The script file is: 
-
-: /etc/init.d/hostname.sh
-
-Therefore, to change the hostname of your Pi, do 3 things: 
-
- 1. edit the two files =/etc/hosts= and =/etc/hostname=, 
- 2. the =hostaname.sh= script with =sudo /etc/init.d/hostname.sh=
- 3. finally reboot the raspberry pi with =sudo reboot=
-
-Here is how to edit =/etc/hosts/=
-
-#+BEGIN_QUOTE
-Leave all of the entries alone except for the very last entry labeled 127.0.1.1 with the hostname “raspberrypi“. This is the only line you want to edit. Replace “raspberrypi” with whatever hostname you desire. We replaced it on our device with “weatherstation“. Press CTRL+X to close the editor; agree to overwrite the existing file and save it.
-#+END_QUOTE
-
-=/etc/hostname/= contains the current hostname on a single line, only.  Replace the current hostname with the new hostname.
-
 * Configure your rpi to access your Wifi network
 
 ** Background
@@ -397,3 +365,39 @@ usually it is 1 for usb and 0 for built-in audio.
 : pkill jackd #quit jackd
 
 ** Step 7: Configure EMACS for work with SuperCollider
+
+
+* Other stuff
+** Changing the hostname of your Pi
+
+This is useful if you are working with several Pis on the same WiFi lan and want to access each Pi from a different name.
+
+See http://www.howtogeek.com/167195/how-to-change-your-raspberry-pi-or-other-linux-devices-hostname/
+
+The hostname is configured in two files:
+
+1. this file:
+
+: /etc/hosts
+
+and 2. this file: 
+
+: /etc/hostname
+
+Additionally, there is a script file which takes the information from the above 2 files and configures the system in order to register the new host name.  The script file is: 
+
+: /etc/init.d/hostname.sh
+
+Therefore, to change the hostname of your Pi, do 3 things: 
+
+ 1. edit the two files =/etc/hosts= and =/etc/hostname=, 
+ 2. the =hostaname.sh= script with =sudo /etc/init.d/hostname.sh=
+ 3. finally reboot the raspberry pi with =sudo reboot=
+
+Here is how to edit =/etc/hosts/=
+
+#+BEGIN_QUOTE
+Leave all of the entries alone except for the very last entry labeled 127.0.1.1 with the hostname “raspberrypi“. This is the only line you want to edit. Replace “raspberrypi” with whatever hostname you desire. We replaced it on our device with “weatherstation“. Press CTRL+X to close the editor; agree to overwrite the existing file and save it.
+#+END_QUOTE
+
+=/etc/hostname/= contains the current hostname on a single line, only.  Replace the current hostname with the new hostname.
