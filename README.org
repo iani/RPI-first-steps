@@ -27,7 +27,7 @@ They instructions include the following steps:
 5. Get and install SuperCollider.
 6. Configure EMACS to work with SuperCollider.
 
-* Loade a Jessie-lite linux image on micro sd
+* Load a Linux image on micro sd for the Pi (Jessie-lite)
 
 ** Obtaining Jessie-lite
 Get Jessie-lite from here: 
