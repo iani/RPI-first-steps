@@ -45,14 +45,15 @@ From the terminal run df -h.
 
 Connect the SD card reader with the SD card inside.
 
-Run df -h again and look for the new device that wasn't listed last time. Record the device name of the filesystem's partition, for example /dev/disk3s1.
+Run df -h again and look for the new device that wasn't listed last time. Record the device name of the filesystem's partition, for example =/dev/disk3s1=.
+
 Unmount the partition so that you will be allowed to overwrite the disk:
 
 : sudo diskutil unmount /dev/disk3s1
 
-Alternatively, open Disk Utility and unmount the partition of the SD card; do not eject it, or you will have to reconnect it.
+Alternatively, open Disk Utility and unmount the partition of the SD card. Do not eject it, or you will have to reconnect it.
 
-Using the device name of the partition, work out the raw device name for the entire disk by omitting the final s1 and replacing disk with rdisk This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it - for example, rdisk3, not rdisk3s1. Similarly, you might have another SD drive name/number like rdisk2 or rdisk4; you can check again by using the df -h command both before and after you insert your SD card reader into your Mac. For example, /dev/disk3s1 becomes /dev/rdisk3.
+Using the device name of the partition, work out the raw device name for the entire disk by omitting the final s1 and replacing disk with rdisk This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it - for example, rdisk3, not rdisk3s1. Similarly, you might have another SD drive name/number like rdisk2 or rdisk4; you can check again by using the df -h command both before and after you insert your SD card reader into your Mac. For example, =/dev/disk3s1= becomes =/dev/rdisk3=.
 In the terminal, write the image to the card with this command, using the raw device name from above. Read the above step carefully to be sure you use the correct rdisk number here:
 
 : sudo dd bs=1m if=2016-05-27-raspbian-jessie.img of=/dev/rdisk3
@@ -200,7 +201,7 @@ network={
 }
 #+END_SRC
 
-You should substitute {WIFI_NAME} with the name of your wifi network and {PASSWORD} with the password for that network. 
+You should substitute ={WIFI_NAME}= with the name of your wifi network and ={PASSWORD}= with the password for that network. 
 
 After writing the file, you may reboot the wifi with:
 
