@@ -241,7 +241,7 @@ Run
 
 : sudo nano /etc/apt/sources.list
 
-The the original contents of the file before editing should be: 
+The original contents of the file before editing are: 
 
 #+BEGIN_SRC bash
 deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi
