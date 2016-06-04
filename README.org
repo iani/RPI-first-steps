@@ -79,9 +79,9 @@ Alternatively, open Disk Utility and use this to eject the SD card.
 
 After inserting the micro sd in the RPI, connect the RPI to your computer using an ethernet cable, then connect the RPI to a power source to boot it, and after ca 2 minutes, log into RPI by typing unix terminal:
 
-: sudo ssh pi@raspberry.local
+: sudo ssh pi@raspberrypi.local
 
-the password is =raspberry=.
+You may be asked to enter the password for the local superuser account, before proceeding to authenticate with the password for the Raspberry Pi. The password for pi is =raspberry=.
 
 Now you are on the shell of the raspberry pi.
 
@@ -249,7 +249,7 @@ deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rp
 #deb-src http://archive.raspbian.org/raspbian/ jessie main contrib non-free rpi
 #+END_SRC
 
-You need to uncomment the last line, which means to remove the =#= sign at the beginning of the line. The last line beoomes: 
+You need to uncomment the last line, which means to remove the =#= sign at the beginning of the line. The last line becomes: 
 
 : deb-src http://archive.raspbian.org/raspbian/ jessie main contrib non-free rpi
 
