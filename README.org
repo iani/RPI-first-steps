@@ -21,7 +21,7 @@ The following items are needed to complete the setup:
 They instructions include the following steps: 
 
 1. Download and store a Linux image on a micro sd disc, so as to boot the Raspberry Pi with it.
-2. Connect the Raspberry Pi to the Computer via Ethernet, and log onto the Raspberry Pi via ssh.
+2. Connect the Raspberry Pi to the Computer via Ethernet, log onto the Raspberry Pi via ssh, and enable passwordless access using =ssh-keygen=.
 3. Configure the Pi to access your WiFi network and the internet.
 4. Get and install EMACS.
 5. Get and install SuperCollider.
@@ -85,15 +85,45 @@ You may be asked to enter the password for the local superuser account, before p
 
 Now you are on the shell of the raspberry pi.
 
+Note: =sudo ssh= calls the =ssh= command as superuser.  This is to avoid a warning issued by the security mechanism of many UNIX systems when trying to connect to a new host directly via =~/.ssh/known_hosts= and, without the =sudo=: 
+
+: WARNING: POSSIBLE DNS SPOOFING DETECTED! :
+
+You can suppress this message by editing the file =~/.ssh/known_hosts= and removing the line which contains the domain name of the pi: =raspberrypi.local=.  This should enable you to do =ssh raspberrypi.local=, but only as long as the ip of the pi remains the same.  As soon as the pi gets a new ip number, a new conflict may occur. 
+
+In any case, it is recommended at this stage to create a public key on the pi, which will enable you to ssh to your pi directly without entering a password, and also to interact freely with git repositories on your github account (clone, fetch and push code).  This is explained in the following subsection.
+
+/Note: Additional benefits are direct transfer of files with =rsync= or =scp=, and editing of files from your local emacs application using tramp./
+
+** Enable passwordless access to ssh and github using =ssh-keygen=
+
+Instructions for doing this are described here: https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md
+
+The following comments may be useful for understanding the mechanism: 
+
+=ssh-keygen= creates two files: 
+
+1. =~/.ssh/id_rsa= : Local encrypted key
+2. =~/.ssh/id_rsa.pub= : Public key shared with other computers.
+
+You use the key contained in the second file, =~/.ssh/id_rsa.pub=, in order to enable access to other computers or systems.  For every system that you want to access from your local computer, you need to add the contents of =id_rsa.pub= at an appropriate place.  For example, to =ssh= to a remote unix computer, the contents of =id_rsa.pub= *from your local computer* must be appended to the contents of the file =~/.ssh/authorized_keys= *on the remote computer that you want to access*.  Two characteristic examples are: 
+
+1. To gain full access to your github account's repositories, add the contents of =id_rsa.pub= as a new key in the section for keys in your github account.  If you are logged into github on your browser, you can access this section here:  https://github.com/settings/keys.
+2. To be able to ssh to your pi from your computer, you must add the =id_rsa.pub= key *from your own computer* to the file =~/.ssh/authorized_keys= *on the raspberry pi*. Instructions: 
+
+- If you do not already have one, create a new key on your local computer: 
+
+: ssh-keygen -t rsa -C "your@email.address"
+
+- Append the key to the raspberry pi: 
+
+: cat ~/.ssh/id_rsa.pub | ssh pi@raspberrypi.local 'cat >> .ssh/authorized_keys'
+
 * Configure your rpi to access your Wifi network
 
 ** Background
 
-Internet connections are configured throught the contents of this file: 
-
-: /etc/network/interfaces
-
-The above =interfaces= file may also load a different file to configure WiFi access.  This file is usually: 
+The contents of file =/etc/network/interfaces= define the internet configuration of the Pi.  Furthermore, this =interfaces= file may also load a different file to configure WiFi access, usually this one:
 
 : /etc/wpa_supplicant/wpa_supplicant.conf
 
