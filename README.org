@@ -170,13 +170,13 @@ iface wlan1 inet manual
     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 #+END_SRC
 
-The relevant sections are those which are headed with a line containing =wlan= s =wlan= denotes WiFi lan.  It is essential that they conetain this line:
+The relevant sections are those which are headed with a line containing =wlan=. =wlan= refers to WiFi lan.  The next line after iface wlan0 instructs the Pi to load a file which configures WiFi access:
 
 :     wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 
-because this line tells the wlan interface to use the =wpa_supplicant.conf= file to configure its access to WiFi. 
+Wpa supplicant is an open source program which enables WiFi access using WPA, that is, WiFi Protected Access.
 
-After editing, type Control-O to write the contents of the file and Control-X to exit =nano=.
+After editing the interfaces file to make wlan0 and wlan1 look as in the example above, type Control-O to write the contents of the file and Control-X to exit =nano=.
 
 - 2. Edit the file =/etc/wpa_supplicant/wpa_supplicant.conf= to add the name of the WiFi and password of the network.
 
@@ -335,18 +335,18 @@ First, be sure that you have enabled login to your Pi using the steps above, and
 ** Step 3: Get and install jack audio drivers
 
 #+BEGIN_SRC bash
-: git clone git://github.com/jackaudio/jack2 --depth 1
-: cd jack2
-: ./waf configure --alsa #note: here we use the default gcc-4.9
-: ./waf build
-: sudo ./waf install
-: sudo ldconfig
-: cd ..
-: rm -rf jack2
-: sudo nano /etc/security/limits.conf #and add the following two lines at the end
-: @audio - memlock 256000
-: @audio - rtprio 75
-: exit #and log in again to make the limits.conf settings work
+git clone git://github.com/jackaudio/jack2 --depth 1
+cd jack2
+./waf configure --alsa #note: here we use the default gcc-4.9
+./waf build
+sudo ./waf install
+sudo ldconfig
+cd ..
+rm -rf jack2
+sudo nano /etc/security/limits.conf #and add the following two lines at the end
+@audio - memlock 256000
+@audio - rtprio 75
+exit #and log in again to make the limits.conf settings work
 #+END_SRC
 
 ** Step 5 (compile & install sc master)
@@ -385,6 +385,11 @@ usually it is 1 for usb and 0 for built-in audio.
 
 ** Step 7: Configure EMACS for work with SuperCollider
 
+For this you need 2 libraries and one configuration file: 
+
+1. "scemacs" library on SuperCollider, for connecting to EMACS
+2. "sclang" library on EMACS, for connecting to SuperCollider
+3. sclang-config.el file for configuring SuperCollider on EMACS
 
 * Other stuff
 ** Changing the hostname of your Pi
