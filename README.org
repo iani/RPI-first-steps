@@ -389,7 +389,11 @@ For this you need 2 libraries and one configuration file:
 
 1. "scemacs" library on SuperCollider, for connecting to EMACS
 2. "sclang" library on EMACS, for connecting to SuperCollider
-3. sclang-config.el file for configuring SuperCollider on EMACS
+3. initialize.el file for configuring SuperCollider on EMACS
+   
+Get these from the following github repository: https://github.com/iani/pimacsc.
+
+Installation instructions are on the README file of the above repository and appear on its home page: https://github.com/iani/pimacsc. 
 
 * Other stuff
 ** Changing the hostname of your Pi
