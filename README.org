@@ -1,5 +1,3 @@
-
-
 Instructions for setting up a Raspberry Pi 3 for work with Emacs and SuperCollider over WiFi.
 
 * Introduction
@@ -430,7 +428,7 @@ sudo mv /usr/local/share/SuperCollider/SCClassLibrary/JITLib/GUI /usr/local/shar
 
 : jackd -P75 -dalsa -dhw:0 -p1024 -n3 -s -r44100 & #edit -dhw:1 to match your soundcard. 
 
-usually it is 1 for usb and 0 for built-in audio.
+Edit -dhw:1 to match your soundcard.  Usually it is 1 for usb and 0 for built-in audio.
 
 : sclang #should start sc and compile the class library with only 3 harmless class overwrites warnings
 : s.boot #should boot the server
