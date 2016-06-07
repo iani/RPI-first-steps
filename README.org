@@ -122,6 +122,14 @@ To be able to ssh to your pi from your computer, you must create a public key *o
 
 : cat ~/.ssh/id_rsa.pub | ssh pi@raspberrypi.local 'cat >> .ssh/authorized_keys'
 
+If you get a response: 
+
+: bash: .ssh/authorized_keys: No such file or directory
+
+This means that your pi does not yet have an .ssh directory.  You should create this on your ssh shell on the pi with: 
+
+: mkdir ~/.ssh
+
 To gain full access to your github account's repositories, add the contents of =id_rsa.pub= as a new key in the section for keys in your github account.  If you are logged into github on your browser, you can access this section here:  https://github.com/settings/keys.  To add a key on your pi do:
 
 : ssh-keygen -t rsa -C "your@email.address"
@@ -266,6 +274,24 @@ Then scan your lan for the range of possible IPs deduced from your IP.  For exam
 
 : nmap -sP 192.168.1.1-255
 
+Here is an example of the output of nmap:
+
+#+BEGIN_SRC bash
+Starting Nmap 6.47 ( http://nmap.org ) at 2016-06-07 13:53 EEST
+Nmap scan report for speedport-entry-2i.ote.gr (192.168.1.1)
+Host is up (0.010s latency).
+Nmap scan report for android-157524dbd8c37c49 (192.168.1.3)
+Host is up (0.010s latency).
+Nmap scan report for turangalila2 (192.168.1.6)
+Host is up (0.00042s latency).
+Nmap scan report for raspberrypi (192.168.1.8)
+Host is up (0.0088s latency).
+Nmap done: 255 IP addresses (4 hosts up) scanned in 12.36 seconds
+#+END_SRC
+
+The above says that the ip for raspberrypi is =192.168.1.8=. So one may alternatively ssh on it like this: 
+
+: ssh pi@192.168.1.8
 
 * Install EMACS
 
@@ -311,19 +337,25 @@ You need to uncomment the last line, which means to remove the =#= sign at the b
 
 Save, and then run the command 
 
+: sudo apt-get update
+
+again.  This is to update the list of dependencies/packages that need to be installed, before running the next command =build-dep=, to build the libraries.
+
+After that run this command to build all libraries that emacs24 needs in order to compile. 
+
 : sudo apt-get build-dep emacs24
 
 Now get the source for emacs24 from the web.  Visit this site: http://ftp.gnu.org/gnu/emacs/
 
-It will show an index containing all current sources of emacs.  Find the one that you want.  As of this writing, the most recent is: emacs-24.5.tar.xz.  Right-click on the name of this file to get a menu and select "Copy Link Address".  The address copied should be: "http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.xz".  You will use this address with wget to download the file directly on your PI from the shell with =wget=.  Use the command: 
+It will show an index containing all current sources of emacs.  Find the one that you want.  As of this writing, the most recent is: emacs-24.5.tar.xz.  Right-click on the name of this file to get a menu and select "Copy Link Address".  The address copied should be: "http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.gz".  You will use this address with wget to download the file directly on your PI from the shell with =wget=.  Use the command: 
 
-: wget http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.xz
+: wget http://ftp.gnu.org/gnu/emacs/emacs-24.5.tar.gz
 
 This will download the file emacs-24.5.tar.xz on your Pi.  Now unzip and unarchive the file in two steps: 
 
 - 1. unzip ("Gunzip").
 
-: gunzip emacs-24.5.tar.xz
+: gunzip emacs-24.5.tar.gz
 
 - 2. Unarchive (extract from tar archive:)
 
