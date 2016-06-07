@@ -87,7 +87,23 @@ In many cases you may not be able to connect to your pi the first time.  Instead
 
 : WARNING: POSSIBLE DNS SPOOFING DETECTED! :
 
-The safest way for surpassing this obstacle is to use the method described in the next subsection in order to enable access to the pi via ssh using a public key on your computer.
+The whole message is: 
+
+#+BEGIN_SRC bash
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@       WARNING: POSSIBLE DNS SPOOFING DETECTED!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The ECDSA host key for raspberrypi.local has changed,
+and the key for the corresponding IP address fe80::bbec:ad14:de8d:5f49%bridge100
+has a different value. This could either mean that
+DNS SPOOFING is happening or the IP address for the host
+and its host key have changed at the same time.
+Offending key for IP in /Users/iani/.ssh/known_hosts:46
+#+END_SRC
+
+This is due to a security mechanism on the mac and will be renewed each time that the your computer gets a new ip.  To overcome this obstacle, edit the file /Users/iani/.ssh/known_hosts on your computer, and remove the line that contains the Offending key.  In the above case, this is line 46.  You can also search for the line by searching for the name of the raspberry pi host: raspberrypi.local.  After removing the line, you should be able to =ssh= on your pi.
+
+In the following subsection we show how to make it possible to log in via =ssh= to the raspberry pi, without having to type in the password every time. 
 
 ** Enable access to your pi via ssh (and to github) using =ssh-keygen=
 
@@ -231,6 +247,25 @@ sudo apt-get upgrade
 #+END_SRC
 
 Run first the first command, let it finish, and then run the second command.
+
+** Finding your pi on a WiFi lan, if it is not accessible as =raspberrypi.local=
+
+If you have added WiFi access on your pi, but still cannot find it with =ssh pi@raspberrypi.local=, then you can find its address by scanning the lan with the =nmap= command.
+
+First, find the ip of your computer.  You can do this by running
+
+: ipconfig getifaddr en0
+
+Or if that gives no answer: 
+
+: ipconfig getifaddr en1
+
+Or else look it up on Network preferences.
+
+Then scan your lan for the range of possible IPs deduced from your IP.  For example, if your ip is 192.168.1.6, then scan for:
+
+: nmap -sP 192.168.1.1-255
+
 
 * Install EMACS
 
