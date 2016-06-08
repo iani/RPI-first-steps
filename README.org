@@ -365,7 +365,6 @@ Next you can proceed with the rest of the instructions in http://ubuntuhandbook.
 
 : cd emacs-24.5
 
-
 : ./configure
 
 : make
@@ -451,7 +450,7 @@ For this you need 2 libraries and one configuration file:
    
 Get these from the following github repository: https://github.com/iani/pimacsc.
 
-Installation instructions are on the README file of the above repository and appear on its home page: https://github.com/iani/pimacsc. 
+Installation instructions are on the README file of the above repository and appear on its home page: https://github.com/iani/pimacsc#installation
 
 * Other stuff
 ** Changing the hostname of your Pi
