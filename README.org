@@ -16,7 +16,7 @@ The following items are needed to complete the setup:
 
 ** Steps
 
-They instructions include the following steps: 
+The present instructions include the following steps: 
 
 1. Download and store a Linux image on a micro sd disc, so as to boot the Raspberry Pi with it.
 2. Connect the Raspberry Pi to the Computer via Ethernet, log onto the Raspberry Pi via ssh, and enable passwordless access using =ssh-keygen=.
