@@ -4,6 +4,8 @@ Instructions for setting up a Raspberry Pi 3 for work with Emacs and SuperCollid
 
 The present instructions show how to set up the system of a Raspberry Pi on a micro-sd and to install Emacs and SuperCollider on it, using an Ethernet cable to connect to a computer and a WiFi network for access to the Internet.
 
+The procedure was tested on 27 Oct 2016 using a MacBook Pro 2013 running MacOS 10.12.1.
+
 ** Requirements
 The following items are needed to complete the setup: 
 
@@ -75,11 +77,11 @@ Alternatively, open Disk Utility and use this to eject the SD card.
 
 * Connect to your rpi via ssh over ethernet
 
-After inserting the micro sd in the RPI, connect the RPI to your computer using an ethernet cable, then connect the RPI to a power source to boot it, and after ca 2 minutes, log into RPI by typing unix terminal:
+- Connect the RPI via ethernet to the router at your workplace
+- Connect the computer from which you want to access the RPI via ethernet to the same router where the RPI is connected.
+- Follow the instructions in https://www.raspberrypi.org/documentation/remote-access/ip-address.md to find the IP of your raspberry pi.  *Note: under the current version of raspbian jessie-lite as of 27 Oct 2016, the hostname of raspberry pi is not printed in the output of the command =nmap -sn <ip range>=.  Therefore, the only way to identify the ip is to try logging in with each of the numbers printed out by nmap.  I suggest trying this out in reverse order, starting with the last number printed out.*.  For example, to try out an ip, type: =ssh pi@192.168.16.107=.  The password to try at the prompt is =raspberry=.
 
-: ssh pi@raspberrypi.local
-
-You may be asked to enter the password for the local superuser account, before proceeding to authenticate with the password for the Raspberry Pi. The password for pi is =raspberry=.
+** What to do if you get a message "POSSIBLE DNS SPOOFING DETECTED!"
 
 In many cases you may not be able to connect to your pi the first time.  Instead, you get a message:
 
@@ -99,7 +101,7 @@ and its host key have changed at the same time.
 Offending key for IP in /Users/iani/.ssh/known_hosts:46
 #+END_SRC
 
-This is due to a security mechanism on the mac and will be renewed each time that the your computer gets a new ip.  To overcome this obstacle, edit the file /Users/iani/.ssh/known_hosts on your computer, and remove the line that contains the Offending key.  In the above case, this is line 46.  You can also search for the line by searching for the name of the raspberry pi host: raspberrypi.local.  After removing the line, you should be able to =ssh= on your pi.
+This is due to a security mechanism on the mac and will be renewed each time that your computer gets a new ip.  To overcome this obstacle, edit the file /Users/iani/.ssh/known_hosts on your computer, and remove the line that contains the Offending key.  In the above case, this is line 46.  You can also search for the line by searching for the name of the raspberry pi host: raspberrypi.local.  After removing the line, you should be able to =ssh= on your pi.
 
 In the following subsection we show how to make it possible to log in via =ssh= to the raspberry pi, without having to type in the password every time. 
 
