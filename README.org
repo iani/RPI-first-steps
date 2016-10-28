@@ -81,6 +81,8 @@ Alternatively, open Disk Utility and use this to eject the SD card.
 - Connect the computer from which you want to access the RPI via ethernet to the same router where the RPI is connected.
 - Follow the instructions in https://www.raspberrypi.org/documentation/remote-access/ip-address.md to find the IP of your raspberry pi.  *Note: under the current version of raspbian jessie-lite as of 27 Oct 2016, the hostname of raspberry pi is not printed in the output of the command =nmap -sn <ip range>=.  Therefore, the only way to identify the ip is to try logging in with each of the numbers printed out by nmap.  I suggest trying this out in reverse order, starting with the last number printed out.*.  For example, to try out an ip, type: =ssh pi@192.168.16.107=.  The password to try at the prompt is =raspberry=.
 
+If you are working on MacOS, you can download =nmap= from its official website at: https://nmap.org/book/inst-macosx.html.
+
 ** What to do if you get a message "POSSIBLE DNS SPOOFING DETECTED!"
 
 In many cases you may not be able to connect to your pi the first time.  Instead, you get a message:
