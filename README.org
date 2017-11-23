@@ -6,17 +6,17 @@ The present instructions show how to set up the system of a Raspberry Pi on a mi
 
 The procedure was first tested on 27 Oct 2016 using from a MacBook Pro 2013 running MacOS 10.12.1, using jessie lite on an RPI 3.
 
-Subsequently it was tested on 3 and 4 November 2017 from a MacPro 2011 running manjaro linux 17.0.6, and on jessie lite on RPI 3 as well as stretch on RPI 1 B+.
+Subsequently it was tested on 3 and 4 November 2017 from a MacPro 2011 running manjaro linux 17.0.6, and on jessie lite on RPI 3 as well as stretch lite on RPI 1 B+.
 
 ** Requirements
 The following items are needed to complete the setup:
 
-1. A Raspberry Pi (The present instrucions are for Raspberry Pi 3).
+1. A Raspberry Pi (The present instrucions are for Raspberry Pi 3 and Raspberry Pi 1 B+).
 2. A power supply for the Raspberry Pi.
 3. A Micro-sd disc with 8GB capacity.
-4. A computer equipped with an ethernet interface (the present instructions assume that you are working on a mac with MacOS 10.11, el Capitan).
-5. An Ethernet cable for connecting the Raspberry Pi to the computer.
-6. A WiFi network for connecting both the computer and the Raspberry Pi to the Internet.
+4. A computer equipped with an ethernet interface (the present instructions assume that you are working on a mac with MacOS 10.13 High Sierra and / or Manjaro Linux 17.0.6).
+5. For initial connection, an Ethernet cable for connecting the Raspberry Pi to the computer, optionally via a switch.
+6. For later convenience, optionally, a WiFi network for connecting both the computer and the Raspberry Pi to the Internet.
 
 ** Steps
 
@@ -457,6 +457,29 @@ For this you need 2 libraries and one configuration file:
 Get these from the following github repository: https://github.com/iani/pimacsc.
 
 Installation instructions are on the README file of the above repository and appear on its home page: https://github.com/iani/pimacsc#installation
+
+** NOTE: Configure jack startup on linux
+   :PROPERTIES:
+   :DATE:     <2017-11-23 Πεμ 14:56>
+   :END:
+
+scsynth needs jack2 for sound i/o. Depending on the audio hardware characteristics of the computer where you are running scsynth, you may need to start jackd with different options.  Here we give a solution which works with Raspberry Pi when using a usb audio card as audio interface instead of the built-in audio interface.  This solution may also be useful for users that run supercollider on  different computers using linux.  In that case you have to figure out the jackd options for your particular computer and specify this by editing the script below.  (This information is also found on http://swiki.hfbk-hamburg.de/MusicTechnology/634).
+
+The script should be saved in a file named =.jackdrc= and placed in the root directory of your home folder.  To find your home folder use this command:
+
+: echo $HOME
+
+To go to your home folder type this command:
+
+: cd
+
+Alternatively use the =~= as identifier for your home directory. For example:
+
+: cd ~/
+
+The contents for =~/.jackdrc= on raspberry pi using usb audio card are:
+
+: /usr/local/bin/jackd -R -dalsa  hw:1 -r 44100 -n3
 
 * Other stuff
 ** Changing the hostname of your Pi
