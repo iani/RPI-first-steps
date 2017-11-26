@@ -305,6 +305,8 @@ This rather long procedure is an optional step.  It is needed if you want the RP
 
 https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
 
+These instructions are also included in the present repository as PDF file under the name: setting-up-a-raspberry-pi-as-a-wifi-access-point.pdf
+
 * Install EMACS
 
 Before you start, run this to make sure that your apt-get package manager is up to date:
