@@ -137,7 +137,6 @@ This means that your pi does not yet have an .ssh directory.  You should create 
 To gain full access to your github account's repositories, add the contents of =id_rsa.pub= as a new key in the section for keys in your github account.  If you are logged into github on your browser, you can access this section here:  https://github.com/settings/keys.  To add a key on your pi do:
 
 : ssh-keygen -t rsa -C "your@email.address"
-
 * Configure your rpi to access your Wifi network
 
 ** Background
@@ -296,6 +295,15 @@ Nmap done: 255 IP addresses (4 hosts up) scanned in 12.36 seconds
 The above says that the ip for raspberrypi is =192.168.1.8=. So one may alternatively ssh on it like this:
 
 : ssh pi@192.168.1.8
+
+* Create a standalone wifi server on RPI sharing internet access over ethernet
+  :PROPERTIES:
+  :DATE:     <2017-11-26 Sun 12:13>
+  :END:
+
+This rather long procedure is an optional step.  It is needed if you want the RPI to act as web server for devices connected over wifi.  For example, when you want to control supercollider or anything else running on RPI via OSC, by using a GUI that appears on a webpage, and which is shared from the RPI via WiFi.
+
+https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
 
 * Install EMACS
 
@@ -530,4 +538,4 @@ https://www.raspberrypi.org/forums/viewtopic.php?&t=42670
 
 And even better this one:
 
-https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660
+https://www.raspberrypi.org/forums/viewtopic.php?f=26&t=22660t
